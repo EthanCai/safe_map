@@ -2,12 +2,13 @@ package safemap
 
 import ()
 
+// SafeMap is a thread-safe map based on channel
 type SafeMap struct {
 	m map[string]interface{}
-	c chan request
+	c chan request // operation request
 }
 
-// You should always use New() to create a SafeMap
+// New is used to create a SafeMap, you should always use this function to create a SafeMap
 func New() *SafeMap {
 	result := &SafeMap{
 		m: make(map[string]interface{}),
@@ -41,6 +42,7 @@ func (s *SafeMap) handleRequest() {
 	}
 }
 
+// Get the value by key
 func (s *SafeMap) Get(key string) (interface{}, bool) {
 	c := make(chan response)
 	s.c <- request{
@@ -52,6 +54,7 @@ func (s *SafeMap) Get(key string) (interface{}, bool) {
 	return resp.value, resp.ok
 }
 
+// Set value by key, return old value if exists
 func (s *SafeMap) Set(key string, value interface{}) (oldv interface{}) {
 	c := make(chan response)
 	s.c <- request{
@@ -64,6 +67,7 @@ func (s *SafeMap) Set(key string, value interface{}) (oldv interface{}) {
 	return resp.value
 }
 
+// Delete a entry by key, return old value if exists
 func (s *SafeMap) Delete(key string) (oldv interface{}) {
 	c := make(chan response)
 	s.c <- request{

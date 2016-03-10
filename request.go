@@ -1,6 +1,7 @@
 package safemap
 
 const (
+	// request type
 	Get = iota
 	Set
 	Delete
