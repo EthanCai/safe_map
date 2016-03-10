@@ -5,6 +5,8 @@ const (
 	Get = iota
 	Set
 	Delete
+	BeginTransaction
+	EndTransaction
 )
 
 type request struct {
@@ -12,6 +14,7 @@ type request struct {
 	key     string
 	value   interface{}
 	respc   chan response
+	tc      chan request // channel for transaction
 }
 
 type response struct {

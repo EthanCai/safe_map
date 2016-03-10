@@ -38,7 +38,7 @@ func TestGetAndSet(t *testing.T) {
 	assert.Equal("v1", oldv)
 }
 
-func TestDelete(t *testing.T) {
+func TestDel(t *testing.T) {
 	assert := assert.New(t)
 
 	sm := New()
@@ -47,7 +47,7 @@ func TestDelete(t *testing.T) {
 	assert.Nil(oldv)
 	assert.Equal("v1", sm.m["k1"])
 
-	oldv = sm.Delete("k1")
+	oldv = sm.Del("k1")
 	assert.NotNil(oldv)
 	assert.Equal("v1", oldv)
 	assert.Equal(0, len(sm.m))
